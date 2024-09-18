@@ -1,0 +1,23 @@
+<?xml version="1.0"?> 
+<launch>
+    <!-- Argument for autonomous drive mode -->
+    <arg name="autonomous_drive" default="false"/>
+
+    <!-- Launch the turtlesim node -->
+    <node pkg="turtlesim" type="turtlesim_node" name="turtlesim" output="screen">
+           <remap from="/turtle1/cmd_vel" to="/cmd_vel"/>
+    </node>
+ 
+
+    <!-- Condition to launch teleop_gui.py if autonomous_drive is false -->
+    <group if="$(arg autonomous_drive)">
+        <node pkg="ros_2106110" type="teleop_gui.py" name="teleop_gui" output="screen">
+        </node>
+    </group>
+
+    <!-- Condition to launch drive_in_circle.py if autonomous_drive is true -->
+    <group unless = "$(arg autonomous_drive)">
+        <node pkg="ros_2106110" type="drive_in_circle.py" name="drive_in_circle" output="screen">
+        </node>
+    </group>
+</launch>
